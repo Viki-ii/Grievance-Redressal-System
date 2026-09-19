@@ -47,4 +47,20 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Check if the user is a student.
+     */
+    public function isStudent(): bool
+    {
+        return $this->role === 'student';
+    }
+
+    /**
+     * Check if the user is a staff member.
+     */
+    public function isStaff(): bool
+    {
+        return $this->role === 'staff';
+    }
 }

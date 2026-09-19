@@ -26,11 +26,14 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
 });
 
-// Authenticated Routes (accessible only to logged-in users)
-Route::middleware('auth')->group(function () {
+// Authenticated Student Routes
+Route::middleware(['auth', 'student'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+});
 
+// Authenticated General Routes
+Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

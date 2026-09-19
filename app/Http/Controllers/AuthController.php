@@ -65,6 +65,16 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
+            if (! Auth::user()->isStudent()) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return back()->withErrors([
+                    'email' => 'Access denied: Only students can log in through this portal.',
+                ])->onlyInput('email');
+            }
+
             return redirect()->intended(route('dashboard'))->with('success', 'You are logged in.');
         }
 
